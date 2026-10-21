@@ -7,3 +7,4 @@ test-data/
 .pytest_cache/
 .coverage
 .DS_Store
+pre-chunk-backup/
