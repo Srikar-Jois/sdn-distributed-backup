@@ -104,3 +104,25 @@ These tests validate the implemented behavior for the scenarios exercised; they 
 ## 9. Conclusion
 
 The project demonstrates a working prototype of distributed file backup over an SDN-managed virtual network. The implementation combines chunked transfer, resumability, SHA-256 verification, multi-node uploads, and retry-based failure handling. Automated tests and Mininet experiments passed for the documented scenarios, providing a foundation for further reliability, security, and performance improvements.
+
+## SDN Failover and Performance Evaluation
+
+### Normal-network throughput
+
+Files of 1 MiB, 5 MiB, and 10 MiB were uploaded to both backup servers through Mininet. All six uploads completed successfully.
+
+| File size | h2 throughput | h3 throughput |
+|---:|---:|---:|
+| 1 MiB | 33.16 MiB/s | 51.30 MiB/s |
+| 5 MiB | 47.45 MiB/s | 42.23 MiB/s |
+| 10 MiB | 34.92 MiB/s | 31.43 MiB/s |
+
+### Link failure and recovery
+
+The primary inter-switch link was disabled at both ends while the redundant link remained available. A timestamped ping test to h2 received 497 of 497 packets, reporting 0% packet loss, average RTT of 0.119 ms, and maximum RTT of 2.331 ms. A separate 5 MiB upload test during link failure successfully replicated the file to both backup servers with matching SHA-256 checksums.
+
+The ping log did not record the exact link-toggle timestamps, so an exact failover recovery duration cannot be derived from that run.
+
+### Limitations
+
+Throughput values are single-run measurements from a virtualized Mininet environment. They demonstrate successful transfers and provide an initial performance baseline, but are not repeated-trial averages or a controlled comparison of all possible network conditions. Raw measurements are in `benchmarks/benchmark_results.csv`.

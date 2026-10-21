@@ -10,11 +10,12 @@ class BackupTopo(Topo):
         s1 = self.addSwitch("s1", protocols="OpenFlow13")
         s2 = self.addSwitch("s2", protocols="OpenFlow13")
 
-        client = self.addHost("h1", ip="10.0.0.1/24")
-        backup1 = self.addHost("h2", ip="10.0.0.2/24")
-        backup2 = self.addHost("h3", ip="10.0.0.3/24")
+        client = self.addHost("h1", ip="10.0.0.1/24", mac="00:00:00:00:00:01")
+        backup1 = self.addHost("h2", ip="10.0.0.2/24", mac="00:00:00:00:00:02")
+        backup2 = self.addHost("h3", ip="10.0.0.3/24", mac="00:00:00:00:00:03")
 
         self.addLink(client, s1)
+        self.addLink(s1, s2)
         self.addLink(s1, s2)
         self.addLink(backup1, s2)
         self.addLink(backup2, s2)
