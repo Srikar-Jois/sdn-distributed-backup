@@ -1,0 +1,8 @@
+SDN failover recovery measurement
+=================================
+Baseline successful replies: 3
+Primary link disable completed (epoch): 1792572577.081267
+First successful reply timestamp (epoch): 1792572577.082839
+Observed ICMP recovery interval (seconds): 0.001572
+Definition: interval from completion of both link-disable commands to the timestamp of the first successful ping reply.
+Primary link restored: yes

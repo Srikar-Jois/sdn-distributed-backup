@@ -1,6 +1,6 @@
 from os_ken.base import app_manager
 from os_ken.controller import ofp_event
-from os_ken.controller.handler import CONFIG_DISPATCHER, set_ev_cls
+from os_ken.controller.handler import CONFIG_DISPATCHER, MAIN_DISPATCHER, set_ev_cls
 from os_ken.ofproto import ofproto_v1_3
 
 
@@ -93,6 +93,29 @@ class BackupSDNController(app_manager.OSKenApp):
                 eth_type=0x0806,
             ),
             self.add_output_actions(parser, output_ports),
+        )
+
+    @set_ev_cls(ofp_event.EventOFPPortStatus, MAIN_DISPATCHER)
+    def port_status_handler(self, ev):
+        msg = ev.msg
+        datapath = msg.datapath
+        ofproto = datapath.ofproto
+        desc = msg.desc
+
+        reasons = {
+            ofproto.OFPPR_ADD: "ADD",
+            ofproto.OFPPR_DELETE: "DELETE",
+            ofproto.OFPPR_MODIFY: "MODIFY",
+        }
+        link_down = bool(desc.state & ofproto.OFPPS_LINK_DOWN)
+
+        self.logger.warning(
+            "PORT_STATUS switch=%s port=%s reason=%s link_down=%s; "
+            "fast-failover group uses the first live bucket",
+            datapath.id,
+            desc.port_no,
+            reasons.get(msg.reason, str(msg.reason)),
+            link_down,
         )
 
     @set_ev_cls(ofp_event.EventOFPSwitchFeatures, CONFIG_DISPATCHER)

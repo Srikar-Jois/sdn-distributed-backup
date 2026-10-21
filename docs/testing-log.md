@@ -64,4 +64,15 @@ These results apply to the tested environment and scenarios; they do not establi
 - During-failure transfer: 5 MiB file successfully replicated to both servers; SHA-256 checksums matched.
 - Throughput and elapsed-time samples: `benchmarks/benchmark_results.csv`.
 - Detailed ping result: `benchmarks/failover_test.txt`.
-- Limitation: exact failover recovery time was not measured because link-toggle timestamps were not captured in the ping log.
+- Recovery-time measurement: `benchmarks/failover_recovery_measurement.txt` records an observed ICMP recovery interval of 0.001572 seconds (1.572 ms). This is the measured interval defined by the script, not the switch's internal processing latency.
+
+## Latest SDN fast-failover verification
+
+- Automated tests: 9 passed.
+- OpenFlow group verification: both `s1` and `s2` reported `type=ff` groups with primary and backup buckets.
+- Failure procedure: disabled the primary inter-switch link at both ends (`s1-eth2` and `s2-eth1`), leaving the redundant link available.
+- Connectivity during failure: `h1` pinged backup server `10.0.0.2`; 5 packets transmitted, 5 received, 0% packet loss. Reported average RTT was 0.479 ms.
+- Recovery measurement: observed ICMP recovery interval of 1.572 ms, as recorded in `benchmarks/failover_recovery_measurement.txt`.
+- Recovery: primary interfaces restored to the up state.
+- Performance measurements and graph: see the existing benchmark results and graph files in the repository.
+- Scope: this verifies failure-based fast failover; it does not demonstrate adaptive path selection based on throughput or latency.
