@@ -1,0 +1,13 @@
+SDN failover validation
+=======================
+Topology: Mininet, h1 client, h2/h3 backup servers
+Failure: primary inter-switch link disabled at both ends
+Recovery path: redundant inter-switch link with OpenFlow fast-failover groups
+Traffic test: timestamped ICMP ping from h1 to 10.0.0.2
+Ping interval: 0.02 seconds
+Packets received: 497 / 497
+Packet loss: 0%
+Average RTT: 0.119 ms
+Maximum RTT: 2.331 ms
+Conclusion: connectivity persisted during the test with no observed packet loss.
+Limitation: link toggle timestamps were not recorded alongside the ping log, so an exact recovery time cannot be calculated from this run.

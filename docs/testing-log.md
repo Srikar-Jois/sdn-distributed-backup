@@ -54,3 +54,14 @@ With one backup server unavailable and retries limited to three attempts, the di
 The recorded automated and manual tests support the core project requirements: SDN connectivity, multi-node replication, interrupted-upload resumption, content-integrity checks, and reporting/retrying around unavailable backup nodes.
 
 These results apply to the tested environment and scenarios; they do not establish production-scale performance or security.
+
+## SDN failover and performance test
+
+- Automated tests: 9 passed.
+- Normal-network uploads: 1 MiB, 5 MiB, and 10 MiB files uploaded to both backup servers.
+- Link-failure test: primary inter-switch link disabled at both ends; the redundant path remained available.
+- Ping result: 497 received out of 497 transmitted, 0% packet loss; average RTT 0.119 ms.
+- During-failure transfer: 5 MiB file successfully replicated to both servers; SHA-256 checksums matched.
+- Throughput and elapsed-time samples: `benchmarks/benchmark_results.csv`.
+- Detailed ping result: `benchmarks/failover_test.txt`.
+- Limitation: exact failover recovery time was not measured because link-toggle timestamps were not captured in the ping log.
