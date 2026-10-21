@@ -1,9 +1,0 @@
-condition,size_mib,server,elapsed_seconds,throughput_mib_s,notes
-normal,1,10.0.0.2,0.03,33.16,Single run
-normal,1,10.0.0.3,0.02,51.30,Single run
-normal,5,10.0.0.2,0.11,47.45,Single run
-normal,5,10.0.0.3,0.12,42.23,Single run
-normal,10,10.0.0.2,0.29,34.92,Single run
-normal,10,10.0.0.3,0.32,31.43,Single run
-failover,5,10.0.0.2,0.08,64.94,Single run with primary link disabled
-failover,5,10.0.0.3,0.17,29.32,Single run with primary link disabled
